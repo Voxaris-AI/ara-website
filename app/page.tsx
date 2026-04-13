@@ -4,14 +4,11 @@ import { useEffect, useState } from "react";
 import { Navbar } from "@/lib/components/Navbar";
 import { ScrollContainer } from "@/lib/components/ScrollContainer";
 import { Footer } from "@/lib/components/Footer";
-import styles from "./page.module.css";
-
-type SectionConfig = {
-  id: string;
-  title: string;
-  background: string;
-  color: string;
-};
+import { Hero } from "@/lib/sections/Hero";
+import { Impact } from "@/lib/sections/Impact";
+import { Integration } from "@/lib/sections/Integration";
+import { Features } from "@/lib/sections/Features";
+import { FAQs } from "@/lib/sections/FAQs";
 
 export default function Home() {
   const [isDarkMode, setIsDarkMode] = useState(false);
@@ -28,54 +25,15 @@ export default function Home() {
     return () => darkModeQuery.removeEventListener("change", handleChange);
   }, []);
 
-  const sections: SectionConfig[] = [
-    {
-      id: "hero-section",
-      title: "Hero",
-      background: isDarkMode
-        ? styles.bgAraGradientDark
-        : styles.bgAraGradientLight,
-      color: styles.textWhite,
-    },
-    {
-      id: "impact-section",
-      title: "Impact",
-      background: isDarkMode ? styles.bgDullPurple : styles.bgLightLavender,
-      color: isDarkMode ? styles.textWhite : styles.textDarkPurple,
-    },
-    {
-      id: "integration-section",
-      title: "Integration",
-      background: styles.bgDarkerPurple,
-      color: styles.textWhite,
-    },
-    {
-      id: "features-section",
-      title: "Features",
-      background: isDarkMode ? styles.bgDullPurple : styles.bgLightLavender,
-      color: isDarkMode ? styles.textWhite : styles.textDarkPurple,
-    },
-    {
-      id: "faqs-section",
-      title: "FAQs",
-      background: isDarkMode ? styles.bgDullPurple : styles.bgLightLavender,
-      color: isDarkMode ? styles.textWhite : styles.textDarkPurple,
-    },
-  ];
-
   return (
     <>
       <Navbar />
       <ScrollContainer>
-        {sections.map((section) => (
-          <section
-            key={section.id}
-            id={section.id}
-            className={`${styles.section} ${section.background} ${section.color}`}
-          >
-            <h2 className={styles.sectionTitle}>{section.title}</h2>
-          </section>
-        ))}
+        <Hero />
+        <Impact isDarkMode={isDarkMode} />
+        <Integration />
+        <Features isDarkMode={isDarkMode} />
+        <FAQs isDarkMode={isDarkMode} />
 
         <Footer />
       </ScrollContainer>

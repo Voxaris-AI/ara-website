@@ -1,0 +1,38 @@
+.faqsSection {
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+}
+
+.faqsSectionLight {
+  background: #dedae1;
+}
+
+.faqsSectionDark {
+  background: #342b3a;
+}
+
+.faqsFrame {
+  width: min(90vw, 1200px);
+  margin: 0 auto;
+  padding: clamp(96px, 14vh, 150px) 24px clamp(48px, 7vh, 84px);
+}
+
+.heading {
+  margin: 0;
+  font-size: clamp(1.85rem, 2.8vw, 3.1rem) !important;
+}
+
+.cardsStack {
+  margin-top: clamp(16px, 3.5vh, 28px);
+  display: flex;
+  flex-direction: column;
+  gap: clamp(10px, 1.5vh, 16px);
+}
+
+@media (max-width: 639px) {
+  .faqsFrame {
+    width: calc(100vw - 16px);
+    padding: clamp(98px, 15vh, 126px) 12px 42px;
+  }
+}

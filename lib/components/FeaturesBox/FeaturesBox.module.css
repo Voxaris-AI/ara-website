@@ -1,0 +1,70 @@
+.box {
+  position: relative;
+  width: 100%;
+  min-height: clamp(310px, 46vh, 520px);
+  border: 1px solid transparent;
+  border-radius: 28px;
+  background-color: var(--features-box-bg);
+  background-image:
+    linear-gradient(var(--features-box-bg), var(--features-box-bg)),
+    var(--features-box-border);
+  background-origin: border-box;
+  background-clip: padding-box, border-box;
+  box-shadow:
+    0 26px 52px rgba(0, 0, 0, 0.45),
+    0 10px 24px rgba(10, 0, 20, 0.35);
+  overflow: hidden;
+}
+
+.card {
+  position: absolute;
+  border-radius: 20px;
+  background: var(--features-card-bg);
+}
+
+.cardWideTop,
+.cardWideBottom {
+  width: 60%;
+  height: 40%;
+  left: 2.5%;
+}
+
+.cardTinyTop,
+.cardTinyBottom {
+  width: 10%;
+  height: 10%;
+  left: 65%;
+}
+
+.cardTallRight {
+  width: 20%;
+  height: 95%;
+  left: 77.5%;
+  top: 2.5%;
+}
+
+.cardWideTop {
+  top: 2.5%;
+}
+
+.cardTinyTop {
+  top: 2.5%;
+}
+
+.cardWideBottom {
+  top: 45%;
+}
+
+.cardTinyBottom {
+  top: 45%;
+}
+
+@media (max-width: 900px) {
+  .box {
+    min-height: clamp(260px, 40vh, 360px);
+  }
+
+  .card {
+    border-radius: 14px;
+  }
+}
