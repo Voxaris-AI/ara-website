@@ -80,7 +80,7 @@
 
 .previewBox {
   width: 100%;
-  min-height: clamp(290px, 45vh, 490px);
+  height: clamp(500px, 68vh, 700px);
   border: 1px solid transparent;
   border-radius: 28px;
   background-color: #0e001b;
@@ -94,6 +94,8 @@
     );
   background-origin: border-box;
   background-clip: padding-box, border-box;
+  padding: 10px;
+  display: flex;
   box-shadow:
     0 26px 52px rgba(0, 0, 0, 0.45),
     0 10px 24px rgba(10, 0, 20, 0.35);
@@ -121,7 +123,8 @@
   }
 
   .previewBox {
-    min-height: min(52vh, 360px);
+    height: min(76vh, 560px);
     border-radius: 22px;
+    padding: 8px;
   }
 }

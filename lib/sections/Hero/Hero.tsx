@@ -1,6 +1,7 @@
 "use client";
 
 import { H4, Title } from "@/lib/components/text";
+import { ChatBox } from "@/lib/components/ChatBox";
 import styles from "./Hero.module.css";
 
 export function Hero() {
@@ -40,7 +41,7 @@ export function Hero() {
           </Title>
           <H4 className={styles.subheading}>
             Ara answers your calls and ensures your patients get the care they
-            deserve, even when you're not there
+            deserve, even when you&apos;re not there
           </H4>
 
           <button
@@ -68,7 +69,9 @@ export function Hero() {
           </button>
         </div>
 
-        <div className={styles.previewBox} aria-hidden="true" />
+        <div className={styles.previewBox}>
+          <ChatBox />
+        </div>
       </div>
     </section>
   );
