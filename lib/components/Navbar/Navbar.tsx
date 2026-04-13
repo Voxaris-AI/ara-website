@@ -30,13 +30,24 @@ export const Navbar: React.FC = () => {
       setIsScrolledFromHero(currentScroll > 8);
 
       const viewportHeight = scrollRoot.clientHeight;
-      const probeY = currentScroll + viewportHeight * 0.42;
+      const viewportTop = currentScroll;
+      const viewportBottom = viewportTop + viewportHeight;
 
-      const activeSection = trackedSections.find((section) => {
-        const sectionTop = section.offsetTop;
-        const sectionBottom = sectionTop + section.offsetHeight;
-        return probeY >= sectionTop && probeY < sectionBottom;
-      });
+      const activeSection = trackedSections
+        .map((section) => {
+          const sectionTop = section.offsetTop;
+          const sectionBottom = sectionTop + section.offsetHeight;
+          const overlap =
+            Math.min(viewportBottom, sectionBottom) -
+            Math.max(viewportTop, sectionTop);
+
+          return {
+            section,
+            overlap: Math.max(0, overlap),
+          };
+        })
+        .filter(({ overlap }) => overlap > 0)
+        .sort((left, right) => right.overlap - left.overlap)[0]?.section;
 
       if (activeSection) {
         setActiveSectionId(activeSection.id);
@@ -60,6 +71,15 @@ export const Navbar: React.FC = () => {
     const section = document.getElementById(sectionId);
 
     if (section && scrollRoot) {
+      if (sectionId === "impact-section") {
+        const targetTop = Math.max(
+          0,
+          section.offsetTop + section.offsetHeight - scrollRoot.clientHeight,
+        );
+        scrollRoot.scrollTo({ top: targetTop, behavior: "smooth" });
+        return;
+      }
+
       section.scrollIntoView({ behavior: "smooth", block: "start" });
     }
   };

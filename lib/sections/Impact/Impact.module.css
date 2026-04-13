@@ -1,7 +1,8 @@
 .impactSection {
-  min-height: 100svh;
+  position: relative;
+  min-height: 380svh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .impactSectionLight {
@@ -15,27 +16,38 @@
 }
 
 .impactFrame {
+  position: sticky;
+  top: 0;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
   width: min(90vw, 1200px);
   margin: 0 auto;
-  padding: clamp(96px, 14vh, 150px) 24px clamp(52px, 8vh, 88px);
+  padding: clamp(106px, 14vh, 156px) 24px clamp(52px, 8vh, 88px);
 }
 
 .heading {
   margin: 0;
   color: #1b0034 !important;
-  text-align: center;
+  text-align: left;
   font-size: clamp(2rem, 3.2vw, 3.45rem) !important;
+  font-weight: 500;
+}
+
+.heading strong {
+  font-weight: 700;
 }
 
 .subheading {
   margin: 12px 0 0;
   color: #342b3a !important;
-  text-align: center;
+  text-align: left;
   font-size: clamp(1rem, 0.6vw + 0.86rem, 1.22rem) !important;
 }
 
 .metricsRow {
-  margin-top: clamp(26px, 5vh, 48px);
+  margin-top: clamp(72px, 14vh, 156px);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
@@ -50,8 +62,16 @@
 }
 
 .metricCard {
-  width: 100%;
-  min-height: clamp(146px, 22vh, 198px);
+  --card-mx: 50%;
+  --card-my: 50%;
+  --card-shadow-rx: 0;
+  --card-shadow-ry: 0;
+  --card-glow-alpha: 0;
+  position: relative;
+  overflow: hidden;
+  width: 92%;
+  margin-inline: auto;
+  min-height: clamp(182px, 26vh, 248px);
   border-radius: 22px;
   background: radial-gradient(
     circle at 0% 0%,
@@ -59,30 +79,87 @@
     rgba(11, 0, 20, 0.95),
     #220029
   );
-  box-shadow:
-    0 20px 38px rgba(12, 2, 20, 0.38),
-    0 6px 14px rgba(15, 3, 28, 0.22);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 22px;
+  padding: 26px;
+  transition:
+    box-shadow 180ms cubic-bezier(0.2, 0.65, 0.1, 1),
+    filter 180ms cubic-bezier(0.2, 0.65, 0.1, 1);
+  will-change: box-shadow;
+}
+
+.metricCard::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    165% 130% at calc(44% + var(--card-shadow-rx) * 20%)
+      calc(34% + var(--card-shadow-ry) * 18%),
+    rgba(255, 255, 255, calc(0.08 + 0.08 * var(--card-glow-alpha))),
+    rgba(255, 255, 255, 0.02) 45%,
+    rgba(98, 155, 199, calc(0.04 + 0.06 * var(--card-glow-alpha))) 72%,
+    rgba(6, 12, 20, 0.15)
+  );
+  mix-blend-mode: screen;
+  opacity: 0.9;
 }
 
 .metricValue {
   margin: 0;
   text-align: center;
   color: #ffffff !important;
-  font-size: clamp(2.4rem, 4vw, 4rem) !important;
+  font-size: clamp(2.9rem, 5.2vw, 5rem) !important;
+  font-weight: 400 !important;
+  font-style: italic;
   line-height: 1 !important;
 }
 
 .metricDescription {
-  margin: 14px 0 0;
+  margin: 18px 0 0;
   text-align: center;
   max-width: 36ch;
   color: #1b0034 !important;
-  font-size: clamp(0.92rem, 0.35vw + 0.85rem, 1.02rem) !important;
+  font-size: clamp(1.02rem, 0.55vw + 0.9rem, 1.2rem) !important;
+  font-weight: 400 !important;
   line-height: 1.55;
+}
+
+.cardReveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition-property: opacity, transform;
+  transition-duration: 900ms;
+  transition-timing-function: cubic-bezier(0.2, 0.65, 0.1, 1);
+  will-change: opacity, transform;
+}
+
+.metricsRow > .cardReveal:first-child {
+  transition-delay: 0ms;
+  transition-duration: 520ms;
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.interactiveCard {
+  box-shadow:
+    inset calc(var(--card-shadow-rx) * -8px) calc(var(--card-shadow-ry) * -8px)
+      20px rgba(255, 255, 255, calc(0.1 + 0.07 * var(--card-glow-alpha))),
+    inset calc(var(--card-shadow-rx) * 12px) calc(var(--card-shadow-ry) * 12px)
+      34px rgba(4, 8, 14, calc(0.2 + 0.1 * var(--card-glow-alpha))),
+    0 calc(8px + var(--card-shadow-ry) * 6px) 18px rgba(3, 6, 12, 0.24);
+}
+
+.interactiveCard:hover {
+  box-shadow:
+    inset 0 0 24px rgba(255, 255, 255, 0.14),
+    inset 0 -18px 36px rgba(6, 10, 16, 0.32),
+    0 12px 24px rgba(3, 6, 12, 0.28);
 }
 
 .textLight {
@@ -95,12 +172,14 @@
 
 @media (max-width: 900px) {
   .metricsRow {
+    margin-top: clamp(52px, 11vh, 104px);
     grid-template-columns: 1fr;
     gap: 20px;
   }
 
   .metricCard {
-    min-height: 132px;
+    width: 100%;
+    min-height: 166px;
   }
 
   .metricDescription {
@@ -109,8 +188,25 @@
 }
 
 @media (max-width: 639px) {
+  .impactSection {
+    min-height: 460svh;
+  }
+
   .impactFrame {
     width: calc(100vw - 16px);
     padding: clamp(96px, 15vh, 126px) 12px 42px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardReveal,
+  .cardVisible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .metricCard {
+    transition: none;
   }
 }
