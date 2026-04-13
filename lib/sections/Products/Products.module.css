@@ -1,0 +1,91 @@
+.extendedScrollRoom {
+  min-height: 540svh;
+}
+
+.extendedScrollRoom.extendedScrollRoom {
+  scroll-snap-stop: normal;
+}
+
+.cardReveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition-property: opacity, transform;
+  transition-duration: 2000ms;
+  transition-timing-function: cubic-bezier(0.2, 0.65, 0.1, 1);
+  will-change: opacity, transform;
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.interactiveCard {
+  --card-mx: 50%;
+  --card-my: 50%;
+  --card-shadow-rx: 0;
+  --card-shadow-ry: 0;
+  --card-glow-alpha: 0;
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+.interactiveSurface {
+  position: relative;
+  border-radius: 28px;
+  overflow: hidden;
+  transition:
+    box-shadow 180ms cubic-bezier(0.2, 0.65, 0.1, 1),
+    filter 180ms cubic-bezier(0.2, 0.65, 0.1, 1);
+  box-shadow:
+    inset calc(var(--card-shadow-rx) * -8px) calc(var(--card-shadow-ry) * -8px)
+      20px rgba(255, 255, 255, calc(0.1 + 0.07 * var(--card-glow-alpha))),
+    inset calc(var(--card-shadow-rx) * 12px) calc(var(--card-shadow-ry) * 12px)
+      34px rgba(4, 8, 14, calc(0.2 + 0.1 * var(--card-glow-alpha))),
+    0 calc(8px + var(--card-shadow-ry) * 6px) 18px rgba(3, 6, 12, 0.24);
+}
+
+.interactiveSurface::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  border-radius: inherit;
+  background: radial-gradient(
+    165% 130% at calc(44% + var(--card-shadow-rx) * 20%)
+      calc(34% + var(--card-shadow-ry) * 18%),
+    rgba(255, 255, 255, calc(0.08 + 0.08 * var(--card-glow-alpha))),
+    rgba(255, 255, 255, 0.02) 45%,
+    rgba(98, 155, 199, calc(0.04 + 0.06 * var(--card-glow-alpha))) 72%,
+    rgba(6, 12, 20, 0.15)
+  );
+  mix-blend-mode: screen;
+  opacity: 0.9;
+}
+
+.interactiveCard:hover .interactiveSurface {
+  box-shadow:
+    inset 0 0 24px rgba(255, 255, 255, 0.14),
+    inset 0 -18px 36px rgba(6, 10, 16, 0.32),
+    0 12px 24px rgba(3, 6, 12, 0.28);
+}
+
+.interactiveCard:focus-visible {
+  outline: 2px solid rgba(255, 255, 255, 0.85);
+  outline-offset: 4px;
+  border-radius: 28px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardReveal,
+  .cardVisible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .interactiveSurface {
+    transition: none;
+  }
+}

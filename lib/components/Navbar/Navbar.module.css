@@ -1,0 +1,181 @@
+.navbar {
+  position: fixed;
+  top: 12px;
+  left: 50%;
+  z-index: 50;
+  display: flex;
+  height: 56px;
+  width: calc(100vw - 16px);
+  max-width: 1200px;
+  transform: translateX(-50%);
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 999px;
+  padding: 0 12px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0);
+  border: 1px solid rgba(222, 218, 225, 0);
+  overflow: hidden;
+  transition:
+    box-shadow 520ms ease,
+    border-color 520ms ease;
+}
+
+.navbarVisible {
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+  border-color: rgba(222, 218, 225, 0.18);
+}
+
+.logoButton {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  cursor: pointer;
+}
+
+.logoStack {
+  display: grid;
+}
+
+.logo {
+  grid-area: 1 / 1;
+  height: 28px;
+  width: auto;
+  object-fit: contain;
+  transition: opacity 200ms ease;
+}
+
+.logoBase {
+  opacity: 1;
+}
+
+.logoGlow {
+  opacity: 0;
+}
+
+.logoButton:hover .logoBase,
+.logoButton:focus-visible .logoBase {
+  opacity: 0;
+}
+
+.logoButton:hover .logoGlow,
+.logoButton:focus-visible .logoGlow {
+  opacity: 1;
+}
+
+.actions {
+  margin-left: auto;
+  display: flex;
+  height: 100%;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 0 0 0 8px;
+}
+
+.actions::-webkit-scrollbar {
+  display: none;
+}
+
+.linkButton {
+  margin: 0;
+  border: 0;
+  background: transparent;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-family: var(--font-ibm-plex-sans), "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: #ffffff;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    transform 160ms ease;
+}
+
+.linkButton:hover,
+.linkButton:focus-visible {
+  background: rgba(222, 218, 225, 0.2);
+  transform: translateY(-1px);
+}
+
+.linkButtonActive {
+  font-weight: 700;
+}
+
+.demoButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: 999px;
+  background: #ffffff;
+  padding: 9px 12px;
+  cursor: pointer;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    box-shadow 180ms ease,
+    filter 180ms ease,
+    transform 180ms ease;
+}
+
+.demoButtonText {
+  margin: 0;
+  font-family: var(--font-ibm-plex-sans), "IBM Plex Sans", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: #0e0e0e;
+}
+
+.demoButton:hover,
+.demoButton:focus-visible {
+  box-shadow:
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px rgba(170, 225, 255, 0.32);
+  filter: brightness(1.02);
+  transform: translateY(-0.8px);
+}
+
+@media (min-width: 640px) {
+  .navbar {
+    top: 20px;
+    width: min(90vw, 1200px);
+    height: 64px;
+    padding: 0 24px;
+  }
+
+  .logo {
+    height: 32px;
+  }
+
+  .actions {
+    gap: 12px;
+  }
+
+  .linkButton {
+    font-size: 15px;
+    padding: 10px 14px;
+  }
+
+  .demoButton {
+    padding: 10px 16px;
+  }
+
+  .demoButtonText {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 639px) {
+  .linkButton {
+    display: none;
+  }
+}

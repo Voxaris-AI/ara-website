@@ -1,0 +1,163 @@
+.card {
+  width: min(clamp(286px, 37.4vw, 550px), clamp(253px, 40.7svh, 506px));
+  aspect-ratio: 5 / 6;
+  flex-shrink: 0;
+  border-radius: 28px;
+  padding: 1px;
+  background: linear-gradient(
+    90deg,
+    rgba(68, 68, 68, 0.75),
+    rgba(48, 48, 48, 0.75)
+  );
+  box-shadow:
+    0 14px 30px rgba(0, 0, 0, 0.28),
+    0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.inner {
+  height: 100%;
+  width: 100%;
+  border-radius: 27px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: clamp(24px, 7.2%, 42px);
+  padding-bottom: clamp(18px, 5%, 28px);
+}
+
+.innerAri {
+  position: relative;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.logoWrap {
+  position: relative;
+  width: min(78%, 380px);
+  aspect-ratio: 18 / 7;
+}
+
+.logoWrapTop {
+  position: absolute;
+  top: clamp(24px, 7.2%, 42px);
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ariCenter {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 clamp(16px, 4.2%, 28px);
+}
+
+.copyWrap {
+  margin-top: clamp(18px, 4%, 28px);
+  width: min(80%, 360px);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.copyText {
+  margin: 0;
+  text-align: center;
+  line-height: 1.45;
+}
+
+.viewCta {
+  margin: auto 0 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  text-transform: lowercase;
+  transition:
+    color 180ms ease,
+    text-shadow 180ms ease,
+    filter 180ms ease;
+}
+
+.viewLabel {
+  font-style: italic;
+  font-weight: 700;
+}
+
+.viewIcon {
+  color: inherit;
+  flex-shrink: 0;
+  transition:
+    transform 180ms ease,
+    filter 180ms ease;
+}
+
+.card:hover .viewCta,
+.card:focus-within .viewCta {
+  color: #ffffff;
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.55),
+    0 0 22px rgba(168, 218, 255, 0.4);
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.45));
+}
+
+.card:hover .viewIcon,
+.card:focus-within .viewIcon {
+  transform: translateX(2px);
+  filter: drop-shadow(0 0 8px rgba(168, 218, 255, 0.5));
+}
+
+.ariHeadline {
+  margin: 0;
+  text-align: center;
+  font-weight: 700;
+}
+
+.logo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  transition: opacity 180ms ease;
+}
+
+.logoDefault {
+  opacity: 1;
+}
+
+.logoGlow {
+  opacity: 0;
+}
+
+.card:hover .logoDefault,
+.card:focus-within .logoDefault {
+  opacity: 0;
+}
+
+.card:hover .logoGlow,
+.card:focus-within .logoGlow {
+  opacity: 1;
+}
+
+.araGradient {
+  background: radial-gradient(
+    circle at 0% 0%,
+    #421f44,
+    rgba(11, 0, 20, 0.95),
+    #220029
+  );
+}
+
+.ariGradient {
+  background: radial-gradient(
+    circle at 0% 0%,
+    #44311f,
+    rgba(20, 10, 0, 0.95),
+    #291200
+  );
+}

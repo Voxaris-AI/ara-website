@@ -1,0 +1,99 @@
+.cardReveal {
+  opacity: 0;
+  transform: translate3d(0, 20px, 0);
+  transition-property: opacity, transform;
+  transition-duration: 2000ms;
+  transition-timing-function: cubic-bezier(0.2, 0.65, 0.1, 1);
+  will-change: opacity, transform;
+}
+
+.cardVisible {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+.interactiveCard {
+  --card-mx: 50%;
+  --card-my: 50%;
+  --card-shadow-rx: 0;
+  --card-shadow-ry: 0;
+  --card-glow-alpha: 0;
+}
+
+.interactiveSurface {
+  position: relative;
+  overflow: hidden;
+  transition:
+    box-shadow 180ms cubic-bezier(0.2, 0.65, 0.1, 1),
+    filter 180ms cubic-bezier(0.2, 0.65, 0.1, 1);
+  box-shadow:
+    inset calc(var(--card-shadow-rx) * -10px)
+      calc(var(--card-shadow-ry) * -10px) 24px
+      rgba(255, 255, 255, calc(0.14 + 0.08 * var(--card-glow-alpha))),
+    inset calc(var(--card-shadow-rx) * 14px) calc(var(--card-shadow-ry) * 14px)
+      42px rgba(4, 8, 14, calc(0.26 + 0.12 * var(--card-glow-alpha))),
+    0 calc(12px + var(--card-shadow-ry) * 8px) 28px rgba(3, 6, 12, 0.28);
+}
+
+.interactiveSurface::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  pointer-events: none;
+  background:
+    radial-gradient(
+      180% 140% at calc(45% + var(--card-shadow-rx) * 22%)
+        calc(38% + var(--card-shadow-ry) * 20%),
+      rgba(255, 255, 255, calc(0.12 + 0.12 * var(--card-glow-alpha))),
+      rgba(255, 255, 255, 0.04) 42%,
+      rgba(95, 153, 194, calc(0.06 + 0.08 * var(--card-glow-alpha))) 68%,
+      rgba(8, 16, 24, 0.2)
+    ),
+    linear-gradient(
+      155deg,
+      rgba(255, 255, 255, 0.1),
+      rgba(255, 255, 255, 0.03) 32%,
+      rgba(21, 58, 86, 0.2) 78%,
+      rgba(8, 16, 24, 0.24)
+    );
+  mix-blend-mode: screen;
+  opacity: 0.92;
+}
+
+.interactiveCard:focus-visible .interactiveSurface {
+  box-shadow:
+    inset -4px -4px 24px rgba(255, 255, 255, 0.22),
+    inset 4px 4px 42px rgba(4, 8, 14, 0.34),
+    0 12px 30px rgba(3, 6, 12, 0.32);
+}
+
+.interactiveCard:hover .interactiveSurface {
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.34),
+    inset 0 -20px 48px rgba(0, 0, 0, 0.28),
+    0 10px 28px rgba(3, 6, 12, 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardReveal,
+  .cardVisible {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .interactiveSurface,
+  .interactiveCard:focus-visible .interactiveSurface {
+    transition: none;
+  }
+
+  .interactiveSurface::before {
+    background: linear-gradient(
+      160deg,
+      rgba(255, 255, 255, 0.08),
+      rgba(255, 255, 255, 0.02) 32%,
+      rgba(25, 61, 87, 0.18) 78%,
+      rgba(8, 16, 24, 0.22)
+    );
+  }
+}
