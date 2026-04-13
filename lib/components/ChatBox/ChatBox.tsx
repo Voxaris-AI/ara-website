@@ -23,7 +23,7 @@ const MESSAGES: Message[] = [
   {
     id: 3,
     role: "ai",
-    text: "Let me check the diary for you now. We have an 11:15am initial assessment on Thursday. Would you like me to book that for you?",
+    text: "Let me check the diary for you now. We have an 11:15am slot free on Thursday. Would you like me to book that for you?",
   },
   {
     id: 4,
@@ -33,7 +33,7 @@ const MESSAGES: Message[] = [
   {
     id: 5,
     role: "ai",
-    text: "Perfect, you are booked in for Thursday at 11:15am. You will receive a text confirmation and intake form shortly.",
+    text: "Perfect, you are booked in for Thursday at 11:15am. You will receive a text confirmation shortly.",
   },
 ];
 
