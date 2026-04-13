@@ -1,7 +1,7 @@
 .faqsSection {
   min-height: 100svh;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
 }
 
 .faqsSectionLight {
@@ -13,9 +13,10 @@
 }
 
 .faqsFrame {
+  min-height: 100svh;
   width: min(90vw, 1200px);
   margin: 0 auto;
-  padding: clamp(96px, 14vh, 150px) 24px clamp(48px, 7vh, 84px);
+  padding: clamp(106px, 14vh, 156px) 24px clamp(52px, 8vh, 88px);
 }
 
 .heading {

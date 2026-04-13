@@ -3,16 +3,55 @@
 }
 
 .cardSurface {
+  position: relative;
+  isolation: isolate;
   width: 100%;
   border-radius: 16px;
   overflow: hidden;
   transition:
-    transform 160ms ease,
-    box-shadow 180ms ease,
-    filter 180ms ease;
+    transform 220ms cubic-bezier(0.2, 0.65, 0.1, 1),
+    box-shadow 260ms cubic-bezier(0.2, 0.65, 0.1, 1),
+    filter 260ms ease;
+}
+
+.cardSurface::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transform: translateX(-8%) scale(1.01);
+  transition:
+    opacity 340ms ease,
+    transform 500ms cubic-bezier(0.2, 0.65, 0.1, 1);
+}
+
+.cardSurface::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  background: linear-gradient(
+    108deg,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0.18) 42%,
+    rgba(255, 255, 255, 0) 62%
+  );
+  mix-blend-mode: screen;
+  opacity: 0;
+  transform: translateX(-70%);
+  transition:
+    opacity 220ms ease,
+    transform 760ms cubic-bezier(0.2, 0.65, 0.1, 1);
 }
 
 .cardButton {
+  position: relative;
+  z-index: 2;
   width: 100%;
   min-height: clamp(56px, 7vh, 70px);
   border: 0;
@@ -35,6 +74,14 @@
     0 3px 8px rgba(37, 16, 50, 0.08);
 }
 
+.cardButtonLight::before {
+  background: radial-gradient(
+    130% 110% at 10% 0%,
+    rgba(145, 91, 255, 0.22),
+    rgba(145, 91, 255, 0) 60%
+  );
+}
+
 .cardButtonDark {
   background: #1b0034;
   color: #ffffff;
@@ -43,16 +90,51 @@
     0 3px 8px rgba(5, 0, 10, 0.28);
 }
 
+.cardButtonDark::before {
+  background: radial-gradient(
+    135% 115% at 10% 0%,
+    rgba(222, 218, 225, 0.2),
+    rgba(145, 91, 255, 0.08) 40%,
+    rgba(145, 91, 255, 0) 68%
+  );
+}
+
 .cardSurface:hover,
 .cardSurface:focus-within {
   transform: translateY(-1px);
-  filter: brightness(1.02);
+  filter: brightness(1.015);
+}
+
+.cardSurface:hover::before,
+.cardSurface:focus-within::before {
+  opacity: 0.35;
+  transform: translateX(0) scale(1);
+}
+
+.cardSurface:hover::after,
+.cardSurface:focus-within::after {
+  opacity: 0.22;
+  transform: translateX(70%);
+}
+
+.cardButtonLight:hover,
+.cardButtonLight:focus-within {
+  box-shadow:
+    0 12px 22px rgba(37, 16, 50, 0.12),
+    0 4px 10px rgba(145, 91, 255, 0.09);
+}
+
+.cardButtonDark:hover,
+.cardButtonDark:focus-within {
+  box-shadow:
+    0 14px 24px rgba(5, 0, 10, 0.4),
+    0 4px 10px rgba(145, 91, 255, 0.14);
 }
 
 .questionText {
-  font-family: var(--font-ibm-plex-sans), "IBM Plex Sans", sans-serif;
-  font-size: clamp(0.92rem, 0.4vw + 0.84rem, 1.02rem);
-  font-weight: 600;
+  font-family: var(--font-ibm-plex-serif), "IBM Plex Serif", serif;
+  font-size: clamp(1.04rem, 0.45vw + 0.94rem, 1.22rem);
+  font-weight: 400;
   line-height: 1.35;
 }
 
@@ -87,6 +169,8 @@
 }
 
 .answerText {
+  position: relative;
+  z-index: 2;
   margin: 0;
   padding: 0 clamp(14px, 2.2vw, 24px) 14px;
   line-height: 1.55;
@@ -100,4 +184,22 @@
 .answerOpen .answerText {
   opacity: 1;
   transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardSurface,
+  .cardSurface::before,
+  .cardSurface::after {
+    transition: none;
+  }
+
+  .cardSurface:hover,
+  .cardSurface:focus-within {
+    transform: none;
+  }
+
+  .cardSurface:hover::after,
+  .cardSurface:focus-within::after {
+    transform: none;
+  }
 }
