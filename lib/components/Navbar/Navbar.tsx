@@ -11,6 +11,11 @@ const NAV_LINKS = [
   { label: "FAQs", sectionId: "faqs-section" },
 ];
 
+const BOTTOM_SCROLL_SECTION_IDS = new Set([
+  "impact-section",
+  "integration-section",
+]);
+
 export const Navbar: React.FC = () => {
   const [activeSectionId, setActiveSectionId] = useState<string>("");
   const [isScrolledFromHero, setIsScrolledFromHero] = useState(false);
@@ -30,27 +35,19 @@ export const Navbar: React.FC = () => {
       setIsScrolledFromHero(currentScroll > 8);
 
       const viewportHeight = scrollRoot.clientHeight;
-      const viewportTop = currentScroll;
-      const viewportBottom = viewportTop + viewportHeight;
+      const viewportCenter = currentScroll + viewportHeight / 2;
 
       const activeSection = trackedSections
-        .map((section) => {
+        .find((section) => {
           const sectionTop = section.offsetTop;
           const sectionBottom = sectionTop + section.offsetHeight;
-          const overlap =
-            Math.min(viewportBottom, sectionBottom) -
-            Math.max(viewportTop, sectionTop);
 
-          return {
-            section,
-            overlap: Math.max(0, overlap),
-          };
+          return viewportCenter >= sectionTop && viewportCenter < sectionBottom;
         })
-        .filter(({ overlap }) => overlap > 0)
-        .sort((left, right) => right.overlap - left.overlap)[0]?.section;
+        ?.id;
 
       if (activeSection) {
-        setActiveSectionId(activeSection.id);
+        setActiveSectionId(activeSection);
       } else {
         setActiveSectionId("");
       }
@@ -71,7 +68,7 @@ export const Navbar: React.FC = () => {
     const section = document.getElementById(sectionId);
 
     if (section && scrollRoot) {
-      if (sectionId === "impact-section") {
+      if (BOTTOM_SCROLL_SECTION_IDS.has(sectionId)) {
         const targetTop = Math.max(
           0,
           section.offsetTop + section.offsetHeight - scrollRoot.clientHeight,
