@@ -72,7 +72,8 @@ export const FeaturesBox: React.FC = () => {
             <FaCalendarAlt className={styles.iconGreen} aria-hidden="true" />
           </div>
           <p className={styles.cardCopy}>
-            Ara fills in your schedule gaps so you can see more patients and reduce no-shows.
+            Ara fills in your schedule gaps so you can see more patients and
+            reduce no-shows.
           </p>
 
           <div className={styles.schedulePanel} aria-hidden="true">
