@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import React, { useEffect, useState } from "react";
+import { DemoModal } from "../DemoModal";
 import styles from "./Navbar.module.css";
 
 const NAV_LINKS = [
@@ -19,6 +20,7 @@ const BOTTOM_SCROLL_SECTION_IDS = new Set([
 export const Navbar: React.FC = () => {
   const [activeSectionId, setActiveSectionId] = useState<string>("");
   const [isScrolledFromHero, setIsScrolledFromHero] = useState(false);
+  const [isDemoModalOpen, setIsDemoModalOpen] = useState(false);
 
   useEffect(() => {
     const scrollRoot = document.getElementById("scroll-container");
@@ -83,58 +85,77 @@ export const Navbar: React.FC = () => {
     scrollToSection("hero-section");
   };
 
+  const openDemoModal = () => {
+    setIsDemoModalOpen(true);
+  };
+
+  const closeDemoModal = () => {
+    setIsDemoModalOpen(false);
+  };
+
   return (
-    <nav
-      className={`${styles.navbar} ${
-        isScrolledFromHero ? `${styles.navbarVisible} bg-ara-glass` : ""
-      }`}
-    >
-      <button
-        type="button"
-        aria-label="Scroll to hero section"
-        onClick={handleLogoClick}
-        className={styles.logoButton}
+    <>
+      <nav
+        className={`${styles.navbar} ${
+          isScrolledFromHero ? `${styles.navbarVisible} bg-ara-glass` : ""
+        }`}
       >
-        <span className={styles.logoStack}>
-          <Image
-            src="/ara.png"
-            alt="Ara Logo"
-            width={240}
-            height={120}
-            className={`${styles.logo} ${styles.logoBase}`}
-          />
-          <Image
-            src="/ara-glow.png"
-            alt=""
-            aria-hidden="true"
-            width={240}
-            height={120}
-            className={`${styles.logo} ${styles.logoGlow}`}
-          />
-        </span>
-      </button>
+        <button
+          type="button"
+          aria-label="Scroll to hero section"
+          onClick={handleLogoClick}
+          className={styles.logoButton}
+        >
+          <span className={styles.logoStack}>
+            <Image
+              src="/ara.png"
+              alt="Ara Logo"
+              width={240}
+              height={120}
+              className={`${styles.logo} ${styles.logoBase}`}
+            />
+            <Image
+              src="/ara-glow.png"
+              alt=""
+              aria-hidden="true"
+              width={240}
+              height={120}
+              className={`${styles.logo} ${styles.logoGlow}`}
+            />
+          </span>
+        </button>
 
-      <div className={styles.actions}>
-        {NAV_LINKS.map((link) => (
+        <div className={styles.actions}>
+          {NAV_LINKS.map((link) => (
+            <button
+              key={link.sectionId}
+              type="button"
+              onClick={() => scrollToSection(link.sectionId)}
+              className={`${styles.linkButton} ${
+                activeSectionId === link.sectionId
+                  ? styles.linkButtonActive
+                  : ""
+              }`}
+              aria-current={
+                activeSectionId === link.sectionId ? "page" : undefined
+              }
+            >
+              {link.label}
+            </button>
+          ))}
+
           <button
-            key={link.sectionId}
             type="button"
-            onClick={() => scrollToSection(link.sectionId)}
-            className={`${styles.linkButton} ${
-              activeSectionId === link.sectionId ? styles.linkButtonActive : ""
-            }`}
-            aria-current={
-              activeSectionId === link.sectionId ? "page" : undefined
-            }
+            className={styles.demoButton}
+            onClick={openDemoModal}
+            aria-haspopup="dialog"
           >
-            {link.label}
+            <span className={styles.demoButtonText}>Book a Demo</span>
           </button>
-        ))}
+        </div>
+      </nav>
 
-        <a href="#" className={styles.demoButton}>
-          <span className={styles.demoButtonText}>Book a Demo</span>
-        </a>
-      </div>
-    </nav>
+      <DemoModal isOpen={isDemoModalOpen} onClose={closeDemoModal} />
+    </>
   );
 };
