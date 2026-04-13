@@ -27,7 +27,9 @@ export const Features: React.FC<FeaturesProps> = ({ isDarkMode }) => {
           you need
         </H2>
 
-        <FeaturesBox />
+        <div className={styles.boxWrap}>
+          <FeaturesBox />
+        </div>
       </div>
     </section>
   );
