@@ -18,9 +18,9 @@ const ibmPlexSerif = IBM_Plex_Serif({
 });
 
 export const metadata: Metadata = {
-  title: "Voxaris - Intelligence infrastructure",
+  title: "Ara | Voxaris",
   icons: {
-    icon: "/voxaris-favicon.png",
+    icon: "/ara-favicon.png",
   },
 };
 

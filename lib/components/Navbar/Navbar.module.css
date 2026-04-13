@@ -16,7 +16,7 @@
   backdrop-filter: blur(12px);
   box-shadow: 0 10px 24px rgba(0, 0, 0, 0);
   border: 1px solid rgba(222, 218, 225, 0);
-  overflow: hidden;
+  overflow: visible;
   transition:
     box-shadow 520ms ease,
     border-color 520ms ease;
@@ -73,7 +73,7 @@
   height: 100%;
   align-items: center;
   gap: 8px;
-  overflow-x: auto;
+  overflow: visible;
   padding: 0 0 0 8px;
 }
 
