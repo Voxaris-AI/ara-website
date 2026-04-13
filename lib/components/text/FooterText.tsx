@@ -10,9 +10,14 @@ interface TextProps extends React.HTMLAttributes<HTMLElement> {
 
 const COLOR_CLASS_MAP: Record<ColorKey, string> = {
   greyGlassGradient: "text-[#b4b4b4]",
+  araGlassGradient: "text-[#b4b4b4]",
   araGradient: "text-[#b4b4b4]",
   ariGradient: "text-[#b4b4b4]",
   white: "text-[#ffffff]",
+  darkerPurple: "text-[#b4b4b4]",
+  darkPurple: "text-[#b4b4b4]",
+  dullPurple: "text-[#b4b4b4]",
+  lightLavender: "text-[#dedae1]",
   navbarButtonBg: "text-[#ffffff]",
   textPrimaryDarkBg: "text-[#ffffff]",
   textLightBg: "text-[#0e0e0e]",
