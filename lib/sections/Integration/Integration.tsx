@@ -4,36 +4,56 @@ import Image from "next/image";
 import React from "react";
 import { FaCogs, FaStethoscope, FaTooth } from "react-icons/fa";
 import { H2, H4 } from "@/lib/components/text";
-import { COLORS } from "@/lib/theme";
 import styles from "./Integration.module.css";
 
 const CARD_CONTENT = [
   {
     title: "Dental Clinics",
-    copy: "From first enquiry to follow-up reminders, Ara keeps your front desk responsive so patients always feel looked after.",
+    copy: "Automate high-volume admin tasks so your front desk can focus on in-clinic patients.",
+    useCases: [
+      "Book and reschedule appointments from inbound calls",
+      "Run recall campaigns and rebook overdue patients",
+      "Answer common treatment and billing questions instantly",
+    ],
+    ctaLabel: "Find out more",
+    ctaHref: "#features-section",
     icon: <FaTooth className={styles.cardIcon} aria-hidden="true" />,
   },
   {
     title: "Healthcare Practices",
-    copy: "Perfect for multidisciplinary teams that need dependable call handling, triage support, and clear patient communication at scale.",
+    copy: "Reduce reception pressure during peak times with calm, guided patient navigation.",
+    useCases: [
+      "Handle the 8am call rush with smart call routing",
+      "Triage common requests before they reach clinicians",
+      "Send follow-up messages and appointment reminders",
+    ],
+    ctaLabel: "Find out more",
+    ctaHref: "#features-section",
     icon: <FaStethoscope className={styles.cardIcon} aria-hidden="true" />,
   },
   {
     title: "Custom Solutions",
-    copy: "Need a bespoke workflow? We configure Ara around your systems and processes for a seamless, branded patient experience.",
+    copy: "For enterprise teams with specialised workflows, we build around your exact operational model.",
+    useCases: [
+      "Bespoke automations for multi-site organisations",
+      "Custom API integrations with internal systems",
+      "Brand-safe patient journeys with governance controls",
+    ],
+    ctaLabel: "Contact sales",
+    ctaHref: "#contact-section",
     icon: <FaCogs className={styles.cardIcon} aria-hidden="true" />,
   },
 ] as const;
 
 export const Integration: React.FC = () => {
   const [cardsVisible, setCardsVisible] = React.useState(false);
-  const [bottomTextVisible, setBottomTextVisible] = React.useState(false);
-  const cardRefs = React.useRef<Array<HTMLDivElement | null>>([]);
+  const [bottomPanelVisible, setBottomPanelVisible] = React.useState(false);
+  const cardRefs = React.useRef<Array<HTMLElement | null>>([]);
   const pointerFrameRef = React.useRef<number>(0);
   const pointerPositionRef = React.useRef<{ x: number; y: number } | null>(
     null,
   );
-  const activeCardRef = React.useRef<HTMLDivElement | null>(null);
+  const activeCardRef = React.useRef<HTMLElement | null>(null);
 
   React.useEffect(() => {
     const scrollContainer = document.getElementById("scroll-container");
@@ -47,7 +67,7 @@ export const Integration: React.FC = () => {
 
     if (reduceMotion.matches) {
       setCardsVisible(true);
-      setBottomTextVisible(true);
+      setBottomPanelVisible(true);
       return;
     }
 
@@ -68,7 +88,7 @@ export const Integration: React.FC = () => {
       const bottomTextRevealOffset = viewportHeight * 0.38;
 
       setCardsVisible(progress > 0.18);
-      setBottomTextVisible(inSectionScroll > bottomTextRevealOffset);
+      setBottomPanelVisible(inSectionScroll > bottomTextRevealOffset);
       rafId = 0;
     };
 
@@ -104,7 +124,7 @@ export const Integration: React.FC = () => {
     };
   }, []);
 
-  const resetCardInteraction = (cardElement: HTMLDivElement | null) => {
+  const resetCardInteraction = (cardElement: HTMLElement | null) => {
     if (!cardElement) {
       return;
     }
@@ -145,7 +165,7 @@ export const Integration: React.FC = () => {
   };
 
   const onCardPointerMove =
-    (index: number) => (event: React.PointerEvent<HTMLDivElement>) => {
+    (index: number) => (event: React.PointerEvent<HTMLElement>) => {
       if (event.pointerType === "touch") {
         return;
       }
@@ -190,45 +210,85 @@ export const Integration: React.FC = () => {
             className={styles.araLogo}
             priority={false}
           />
-          <H2 className={styles.heading}>handles it all</H2>
+          <H2 className={styles.heading}>adapts to you</H2>
         </div>
 
         <H4 className={styles.topSubheading}>
-          Ara is built to adapt to and learn your workflows, whether you&apos;re
-          a singular clinic or a chain of practices
+          Ara connects with the systems your team already uses, so you can
+          launch faster, keep patient context intact, and scale service quality
+          without adding front-desk overhead.
         </H4>
 
         <div className={styles.cardsRow}>
-          {CARD_CONTENT.map((card, index) => (
-            <div
-              key={card.title}
-              ref={(element) => {
-                cardRefs.current[index] = element;
-              }}
-              onPointerMove={onCardPointerMove(index)}
-              onPointerLeave={onCardPointerLeave(index)}
-              className={`${styles.integrationCard} ${styles.interactiveCard} ${styles.cardReveal} ${cardsVisible ? styles.cardVisible : ""}`}
-            >
-              <div className={styles.cardIconWrap}>{card.icon}</div>
-              <h3 className={styles.cardTitle}>{card.title}</h3>
-              <p className={styles.cardCopy}>{card.copy}</p>
-            </div>
-          ))}
+          {CARD_CONTENT.map((card, index) => {
+            const [firstWord, ...remainingWords] = card.title.split(" ");
+
+            return (
+              <article
+                key={card.title}
+                ref={(element) => {
+                  cardRefs.current[index] = element;
+                }}
+                onPointerMove={onCardPointerMove(index)}
+                onPointerLeave={onCardPointerLeave(index)}
+                className={`${styles.integrationCard} ${styles.interactiveCard} ${styles.cardReveal} ${cardsVisible ? styles.cardVisible : ""}`}
+              >
+                <div className={styles.cardIconWrap}>{card.icon}</div>
+                <h3 className={styles.cardTitle}>
+                  <em>{firstWord}</em> {remainingWords.join(" ")}
+                </h3>
+                <p className={styles.cardCopy}>{card.copy}</p>
+
+                <p className={styles.cardListLabel}>Use cases</p>
+                <ul className={styles.cardList}>
+                  {card.useCases.map((item) => (
+                    <li key={item} className={styles.cardListItem}>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <a href={card.ctaHref} className={styles.cardCta}>
+                  {card.ctaLabel}
+                </a>
+              </article>
+            );
+          })}
         </div>
 
-        <H4
-          className={`${styles.bottomSubheading} ${styles.textReveal} ${bottomTextVisible ? styles.textVisible : ""}`}
+        <div
+          className={`${styles.rolloutPanel} ${styles.textReveal} ${bottomPanelVisible ? styles.textVisible : ""}`}
         >
-          Integration is seamless and we can get set up with your systems within
-          days, not months
-        </H4>
-      </div>
+          <p className={styles.rolloutTitle}>
+            <em>How</em> rollout works
+          </p>
+          <div className={styles.rolloutSteps}>
+            <div className={styles.rolloutStep}>
+              <span className={styles.stepNumber}>1</span>
+              <p className={styles.stepCopy}>
+                We review your current tools and booking flow.
+              </p>
+            </div>
+            <div className={styles.rolloutStep}>
+              <span className={styles.stepNumber}>2</span>
+              <p className={styles.stepCopy}>
+                We connect Ara and test everything with your team.
+              </p>
+            </div>
+            <div className={styles.rolloutStep}>
+              <span className={styles.stepNumber}>3</span>
+              <p className={styles.stepCopy}>
+                You go live with support and check-ins whenever needed.
+              </p>
+            </div>
+          </div>
 
-      <style jsx>{`
-        :global(.${styles.integrationCard}) {
-          --integration-card-bg: ${COLORS.darkPurple};
-        }
-      `}</style>
+          <H4 className={styles.bottomSubheading}>
+            Our systems are built so that you can go live with us in days, not
+            weeks.
+          </H4>
+        </div>
+      </div>
     </section>
   );
 };

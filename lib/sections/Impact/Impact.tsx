@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+import { FaCalendarCheck, FaComments, FaPhoneAlt } from "react-icons/fa";
 import { H2, H4 } from "@/lib/components/text";
 import { ImpactCards, type ImpactMetric } from "./ImpactCards";
 import styles from "./Impact.module.css";
@@ -8,22 +9,43 @@ import styles from "./Impact.module.css";
 const METRICS: ImpactMetric[] = [
   {
     value: "40%",
-    description:
-      "Patients abandon calls if they can't get through within 15 seconds. To handle multiple calls at the same time, you'd need multiple receptionists",
+    label: "Calls dropped",
+    description: "Patients may hang up if no one answers quickly.",
+    insight:
+      "When call volume spikes, missed calls turn into missed bookings and unhappy patients.",
   },
   {
     value: "30%",
-    description:
-      "Enquiries occur outside 9-5 after people finish work. Without automation, this is revenue left on the table.",
+    label: "After-hours demand",
+    description: "A large share of enquiries come in outside 9 to 5.",
+    insight:
+      "If nobody is available after hours, new patient opportunities are lost before morning.",
   },
   {
     value: "6hr",
-    description:
-      "Average amount of time required to fulfil all queries and FAQs on a weekend",
+    label: "Weekend admin load",
+    description: "Teams spend hours handling repeat calls and FAQs.",
+    insight:
+      "Routine questions consume staff time that could be spent on patient-facing care.",
   },
 ];
 
 const REVEAL_THRESHOLDS = [0, 0.34, 0.58];
+
+const OUTCOME_ITEMS = [
+  {
+    text: "Fewer missed booking opportunities",
+    icon: <FaPhoneAlt className={styles.outcomeIcon} aria-hidden="true" />,
+  },
+  {
+    text: "Less pressure on reception teams",
+    icon: <FaComments className={styles.outcomeIcon} aria-hidden="true" />,
+  },
+  {
+    text: "More consistent patient experience",
+    icon: <FaCalendarCheck className={styles.outcomeIcon} aria-hidden="true" />,
+  },
+] as const;
 
 interface ImpactProps {
   isDarkMode: boolean;
@@ -33,6 +55,7 @@ export const Impact: React.FC<ImpactProps> = ({ isDarkMode }) => {
   const [visibleMetrics, setVisibleMetrics] = useState<boolean[]>(() =>
     METRICS.map(() => false),
   );
+  const [activeMetricIndex, setActiveMetricIndex] = useState(0);
   const metricCardRefs = React.useRef<Array<HTMLDivElement | null>>([]);
   const pointerFrameRef = React.useRef<number>(0);
   const pointerPositionRef = React.useRef<{ x: number; y: number } | null>(
@@ -68,6 +91,18 @@ export const Impact: React.FC<ImpactProps> = ({ isDarkMode }) => {
       );
       const rawProgress = (scrollTop - sectionTop) / scrollableSectionDistance;
       const progress = Math.max(0, Math.min(1, rawProgress));
+
+      let nextActiveMetricIndex = 0;
+
+      for (let index = 0; index < REVEAL_THRESHOLDS.length; index += 1) {
+        const threshold = REVEAL_THRESHOLDS[index] ?? 1;
+
+        if (progress > threshold) {
+          nextActiveMetricIndex = index;
+        }
+      }
+
+      setActiveMetricIndex(nextActiveMetricIndex);
 
       setVisibleMetrics((currentVisibleMetrics) => {
         const nextVisibleMetrics = [...currentVisibleMetrics];
@@ -207,17 +242,62 @@ export const Impact: React.FC<ImpactProps> = ({ isDarkMode }) => {
         <H4
           className={`${styles.subheading} ${isDarkMode ? styles.textMutedLight : ""}`}
         >
-          Your patients are, too:
+          Your patients feel it first, and your team feels it every day.
         </H4>
+
+        <div
+          className={`${styles.progressWrap} ${isDarkMode ? styles.progressWrapDark : ""} ${
+            activeMetricIndex === 0
+              ? styles.progressAtOne
+              : activeMetricIndex === 1
+                ? styles.progressAtTwo
+                : styles.progressAtThree
+          }`}
+        >
+          <div className={styles.progressTrack}>
+            <span className={styles.progressFill} />
+          </div>
+          <div className={styles.progressLabels}>
+            {METRICS.map((metric, index) => (
+              <span
+                key={metric.label}
+                className={`${styles.progressLabel} ${
+                  index <= activeMetricIndex ? styles.progressLabelActive : ""
+                }`}
+              >
+                {metric.label}
+              </span>
+            ))}
+          </div>
+        </div>
 
         <ImpactCards
           metrics={METRICS}
           visibleMetrics={visibleMetrics}
+          activeMetricIndex={activeMetricIndex}
           isDarkMode={isDarkMode}
           metricCardRefs={metricCardRefs}
           onCardPointerMove={onCardPointerMove}
           onCardPointerLeave={onCardPointerLeave}
         />
+
+        <div
+          className={`${styles.outcomePanel} ${styles.outcomeReveal} ${
+            visibleMetrics[2] ? styles.outcomeVisible : ""
+          } ${isDarkMode ? styles.outcomePanelDark : ""}`}
+        >
+          <p className={styles.outcomeTitle}>
+            What this means for your practice
+          </p>
+          <ul className={styles.outcomeList}>
+            {OUTCOME_ITEMS.map((item) => (
+              <li key={item.text} className={styles.outcomeItem}>
+                <span className={styles.outcomeIconWrap}>{item.icon}</span>
+                <span>{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </section>
   );

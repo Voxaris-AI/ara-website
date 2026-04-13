@@ -6,12 +6,15 @@ import styles from "./Impact.module.css";
 
 export type ImpactMetric = {
   value: string;
+  label: string;
   description: string;
+  insight: string;
 };
 
 interface ImpactCardsProps {
   metrics: ImpactMetric[];
   visibleMetrics: boolean[];
+  activeMetricIndex: number;
   isDarkMode: boolean;
   metricCardRefs: React.MutableRefObject<Array<HTMLDivElement | null>>;
   onCardPointerMove: (
@@ -23,6 +26,7 @@ interface ImpactCardsProps {
 export const ImpactCards: React.FC<ImpactCardsProps> = ({
   metrics,
   visibleMetrics,
+  activeMetricIndex,
   isDarkMode,
   metricCardRefs,
   onCardPointerMove,
@@ -32,10 +36,10 @@ export const ImpactCards: React.FC<ImpactCardsProps> = ({
     <div className={styles.metricsRow}>
       {metrics.map((metric, index) => (
         <article
-          key={metric.value}
+          key={`${metric.value}-${metric.label}`}
           className={`${styles.metricColumn} ${styles.cardReveal} ${
             visibleMetrics[index] ? styles.cardVisible : ""
-          }`}
+          } ${index === activeMetricIndex ? styles.metricColumnActive : ""}`}
         >
           <div
             ref={(element) => {
@@ -46,6 +50,7 @@ export const ImpactCards: React.FC<ImpactCardsProps> = ({
             className={`${styles.metricCard} ${styles.interactiveCard}`}
           >
             <Title className={styles.metricValue}>{metric.value}</Title>
+            <Text className={styles.metricLabel}>{metric.label}</Text>
           </div>
           <Text
             className={`${styles.metricDescription} ${
@@ -53,6 +58,13 @@ export const ImpactCards: React.FC<ImpactCardsProps> = ({
             }`}
           >
             {metric.description}
+          </Text>
+          <Text
+            className={`${styles.metricInsight} ${
+              isDarkMode ? styles.textMutedLight : ""
+            }`}
+          >
+            {metric.insight}
           </Text>
         </article>
       ))}
