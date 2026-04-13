@@ -37,14 +37,12 @@ export const Navbar: React.FC = () => {
       const viewportHeight = scrollRoot.clientHeight;
       const viewportCenter = currentScroll + viewportHeight / 2;
 
-      const activeSection = trackedSections
-        .find((section) => {
-          const sectionTop = section.offsetTop;
-          const sectionBottom = sectionTop + section.offsetHeight;
+      const activeSection = trackedSections.find((section) => {
+        const sectionTop = section.offsetTop;
+        const sectionBottom = sectionTop + section.offsetHeight;
 
-          return viewportCenter >= sectionTop && viewportCenter < sectionBottom;
-        })
-        ?.id;
+        return viewportCenter >= sectionTop && viewportCenter < sectionBottom;
+      })?.id;
 
       if (activeSection) {
         setActiveSectionId(activeSection);
