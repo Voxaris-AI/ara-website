@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { FaCalendarCheck, FaComments, FaPhoneAlt } from "react-icons/fa";
 import { H2, H4 } from "@/lib/components/text";
 import { ImpactCards, type ImpactMetric } from "./ImpactCards";
 import styles from "./Impact.module.css";
@@ -31,21 +30,6 @@ const METRICS: ImpactMetric[] = [
 ];
 
 const REVEAL_THRESHOLDS = [0, 0.34, 0.58];
-
-const OUTCOME_ITEMS = [
-  {
-    text: "Fewer missed booking opportunities",
-    icon: <FaPhoneAlt className={styles.outcomeIcon} aria-hidden="true" />,
-  },
-  {
-    text: "Less pressure on reception teams",
-    icon: <FaComments className={styles.outcomeIcon} aria-hidden="true" />,
-  },
-  {
-    text: "More consistent patient experience",
-    icon: <FaCalendarCheck className={styles.outcomeIcon} aria-hidden="true" />,
-  },
-] as const;
 
 interface ImpactProps {
   isDarkMode: boolean;
@@ -280,24 +264,6 @@ export const Impact: React.FC<ImpactProps> = ({ isDarkMode }) => {
           onCardPointerMove={onCardPointerMove}
           onCardPointerLeave={onCardPointerLeave}
         />
-
-        <div
-          className={`${styles.outcomePanel} ${styles.outcomeReveal} ${
-            visibleMetrics[2] ? styles.outcomeVisible : ""
-          } ${isDarkMode ? styles.outcomePanelDark : ""}`}
-        >
-          <p className={styles.outcomeTitle}>
-            What this means for your practice
-          </p>
-          <ul className={styles.outcomeList}>
-            {OUTCOME_ITEMS.map((item) => (
-              <li key={item.text} className={styles.outcomeItem}>
-                <span className={styles.outcomeIconWrap}>{item.icon}</span>
-                <span>{item.text}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </section>
   );
